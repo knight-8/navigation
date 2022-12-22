@@ -2,7 +2,7 @@
  * @Author: jiajunwa@outlook.com jiajunwa@outlook.com
  * @Date: 2022-10-29 09:29:04
  * @LastEditors: jiajunwa@outlook.com jiajunwa@outlook.com
- * @LastEditTime: 2022-12-18 12:28:20
+ * @LastEditTime: 2022-12-21 02:16:46
  * @FilePath: \轮播图d:\practical\JavaScript.html
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -14,7 +14,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>导航</title>
-    <script src="//at.alicdn.com/t/c/font_3830845_2j6yoh6wwsf.js"></script>
+    <script src="//at.alicdn.com/t/c/font_3830845_f5lo4fl05de.js"></script>
     <style>
         * {
             margin: 0;
@@ -53,6 +53,11 @@
             vertical-align: -0.15em;
             fill: currentColor;
             overflow: hidden;
+            cursor: pointer;
+        }
+        .icon-edit{
+            width: 25px;
+            margin-left: 5px;
         }
         .search-type {
             display: flex;
@@ -95,9 +100,9 @@
             outline: none;
             background-color: transparent;
         }
-        .search-input > input:focus{
+        /* .search-input > input:focus{
             width: calc(800px - 40px);
-        }
+        } */
         #websites .list h2{
             color: #fff;
             font-size: 32px;
@@ -113,7 +118,16 @@
             padding: 10px;
             margin-top: 10px;
             backdrop-filter: blur(3px);
-            box-shadow:0 0 16px 0 rgba(255, 255, 255, .6)
+            box-shadow:0 0 16px 0 rgba(255, 255, 255, .6);
+            min-height: 55px;
+        }
+        #websites .panel li.tag{
+            position: relative;
+        }
+        #websites .panel li.tag span{
+            position: absolute;
+            top: -10px;
+            right: -5px;
         }
         #websites .tag{
             padding: 2px 10px;
@@ -132,20 +146,99 @@
         #websites .tag:nth-child(4n+4){
             background: rgb(150, 82, 113);
         }
+        #setting{
+            position: fixed;
+            left: 30px;
+            top: 30px;
+            color: #fff;
+        }
+        body.preview .icon-back{
+            display: none;
+        }
+        body.previwe .icon-setting{
+            display: block;
+        }
+        body.setting .icon-back{
+            display: block;
+        }
+        body.setting .icon-setting{
+            display: none;
+        }
+        #setting .icon{
+            width: 30px;
+            height: 30px;
+        }
+        .plus{
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        body.setting .plus{
+            display: flex;
+        }
+        body.preview .plus{
+            display: none;
+        }
+        .plus .icon{
+            width: 30px;
+            height: 30px;
+        }
+        .modal{
+            max-width: 600px;
+            background-color: #fff;
+            position: fixed;
+            padding: 20px;
+            width: 600px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -250px);
+            border-radius: 8px;
+            box-shadow: 0 0 16px rgba(0, 9, 0, .3);
+            opacity: 0;
+            transition: all ,3s;
+        }
+        .modal.show{
+            transform: translate(-50%, -50%);
+            opacity: 1;
+        }
+        .modal .filed{
+            margin: 10px 0;
+        }
+        .modal .button{
+            background-color: #eee;
+            padding: 2px 4px;
+            border-radius: 4px;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .modal .filed input{
+            width: 100%;
+            line-height: 20px;
+        }
+        body.setting .item .icon-delete,
+        body.setting .item .icon-add{
+            display: inline-block;
+        }
+        body.preview .item .icon-delete,
+        body.preview .item .icon-edit,
+        body.preview .panel .icon-add,
+        body.preview .panel .icon-shanchu{
+            display: none;
+        }
     </style>
 </head>
 
-<body>
+<body class="setting">
     <div id="page">
         <section id="search">
             <div class="search-type">
-                <div class="search-tab active">
+                <div data-type="baidu" class="search-tab tab-baidu active">
                     <svg class="icon" aria-hidden="true">
                         <use xlink:href="#icon-baidu"></use>
                     </svg>
                     百度
                 </div>
-                <div class="search-tab">
+                <div data-type="bing" class="search-tab tab-bing">
                     <svg class="icon" aria-hidden="true">
                         <use xlink:href="#icon-weiruan2"></use>
                     </svg>
@@ -167,17 +260,6 @@
                 <ul class="panel">
                     <li class="tag">百度</li>
                     <li class="tag">知乎</li>
-                    <li class="tag">v2ex</li>
-                    <li class="tag">bilibili</li>
-                    <li class="tag">百度</li>
-                    <li class="tag">知乎</li>
-                    <li class="tag">v2ex</li>
-                    <li class="tag">bilibili</li>
-                    <li class="tag">百度</li>
-                    <li class="tag">知乎</li>
-                    <li class="tag">v2ex</li>
-                    <li class="tag">bilibili</li>
-                    <li class="tag">豆瓣</li>
                 </ul>
             </ul>
             <ul class="list">
@@ -187,47 +269,53 @@
                 <ul class="panel">
                     <li class="tag">百度</li>
                     <li class="tag">知乎</li>
-                    <li class="tag">v2ex</li>
-                    <li class="tag">bilibili</li>
-                    <li class="tag">百度</li>
-                    <li class="tag">知乎</li>
-                    <li class="tag">v2ex</li>
-                    <li class="tag">bilibili</li>
-                    <li class="tag">百度</li>
-                    <li class="tag">知乎</li>
-                    <li class="tag">v2ex</li>
-                    <li class="tag">bilibili</li>
-                    <li class="tag">豆瓣</li>
-                </ul>
-            </ul>
-            <ul class="list">
-                <li class="item">
-                    <h2>趁手工具</h2>
-                </li>
-                <ul class="panel">
-                    <li class="tag">百度</li>
-                    <li class="tag">知乎</li>
-                    <li class="tag">v2ex</li>
-                    <li class="tag">bilibili</li>
-                    <li class="tag">百度</li>
-                    <li class="tag">知乎</li>
-                    <li class="tag">v2ex</li>
-                    <li class="tag">bilibili</li>
-                    <li class="tag">百度</li>
-                    <li class="tag">知乎</li>
-                    <li class="tag">v2ex</li>
-                    <li class="tag">bilibili</li>
-                    <li class="tag">豆瓣</li>
                 </ul>
             </ul>
         </section>
     </div>
+    <div class="plus">
+        <svg class="icon icon-plus" aria-hidden="true">
+            <use xlink:href="#icon-file-plus"></use>
+        </svg>
+    </div>
+    <div id="setting">
+        <svg class="icon icon-setting" aria-hidden="true">
+            <use xlink:href="#icon-edit"></use>
+        </svg>
+        <svg class="icon icon-back" aria-hidden="true">
+            <use xlink:href="#icon-fenxiang"></use>
+        </svg>
+    </div>
+    <div class="modal modal-1">
+        <h4>输入分类名称</h4>
+        <div class="filed">
+            <input type="text" placeholder="请输入分类名称">
+        </div>
+        <div class="button button-confirm">确定</div>
+        <div class="button button-cancel">取消</div>
+    </div>
+    <div class="modal modal-2">
+        <h4>修改分类名称</h4>
+        <div class="filed">
+            <input type="text" placeholder="请输入分类名称">
+        </div>
+        <div class="button button-confirm">确定</div>
+        <div class="button button-cancel">取消</div>
+    </div>
+    <div class="modal modal-3">
+        <h4>添加网站</h4>
+        <div class="filed">
+            <input type="text" class="site-name" placeholder="请输入网站名称">
+        </div>
+        <div class="filed">
+            <input type="text" class="site-url" placeholder="请输入网址">
+        </div>
+        <div class="button button-confirm">确定</div>
+        <div class="button button-cancel">取消</div>
+    </div>
     <script>
-        const $ = s => document.querySelector(s)
-        const $$ = s => document.querySelectorAll(s)
-
-        $$
     </script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
